@@ -98,6 +98,9 @@ namespace TestAPIProductos
             var product1 = ProductFaker.generate();
             var product2 = ProductFaker.generate();
             var product3 = ProductFaker.generate();
+            product1.Id = 1;
+            product2.Id = 2;
+            product3.Id = 3;
             mockedDbContext.AddRange(product1,product2, product3);
             mockedDbContext.SaveChanges();
 
@@ -111,7 +114,7 @@ namespace TestAPIProductos
             Productservice productservice = new Productservice(unitOfWorkRepositories);
             ProductController productController = new ProductController(productservice);
 
-            var result = productController.getProductById(bogusFaker.Random.Int(1, 3));
+            var result = productController.getProductById(id);
 
             ActionResult<ResponseDTO> actionResult = Assert.IsType<ActionResult<ResponseDTO>>(result.Result);
             OkObjectResult objectResult = Assert.IsType<OkObjectResult>((OkObjectResult)actionResult.Result);
